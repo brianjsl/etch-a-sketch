@@ -35,12 +35,14 @@ function createDivGrid(width, height) {
         let row = document.createElement('div');
         row.classList.add('row');
         row.style = "display: flex"
-
+        
         for (let j = 0; j< width; j++) {
             let square = document.createElement('div');
             square.classList.add('square');
             square.style = "padding: 12px; background-color: white; border: 0; margin: 0;";
             addBorder(square, i, j, width, height, 2);
+
+            addHoverEffect(square);
 
             row.appendChild(square);
         }
@@ -49,4 +51,48 @@ function createDivGrid(width, height) {
     }
 }
 
+let mouse_clicking = false;
+
+function addHoverEffect(square) {
+    square.addEventListener('mousedown', function(e) {
+        this.style.backgroundColor = "black";
+        mouse_clicking = true;
+    });
+    square.addEventListener('mouseup', function(e) {
+        this.style.backgroundColor = 'black';
+        mouse_clicking = false;
+    }); 
+    square.addEventListener('mousemove', function(e) {
+        if (mouse_clicking) {
+            this.style.backgroundColor = "black";
+        } 
+    }) 
+}
+
+function checkValidSize(n, type) {
+    console.log(n);
+    while ( (n !== null) &&  (typeof Number(n) != 'number' || n <= 0)) {
+        n = prompt(`Enter a valid ${type}!`)
+    }
+    while (n !== null && n > 20) {
+        n = prompt(`${type} must be less than 20!`);
+    }
+
+    return n;
+}
+
+/* Script Code*/
+
 createDivGrid(16, 16);
+
+let changeSizeButton = document.querySelector(".container .changeSize");
+changeSizeButton.addEventListener('click', function(e) {
+    let w = checkValidSize(prompt("Width: "), 'Width');
+    let h = checkValidSize(prompt("Height: "), 'Height');
+
+    let rows = document.querySelectorAll('.row');
+    rows.forEach(row => {row.remove()});
+
+    createDivGrid(+w, +h);
+})
+
