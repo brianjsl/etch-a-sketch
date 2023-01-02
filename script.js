@@ -39,7 +39,7 @@ function createDivGrid(width, height) {
         for (let j = 0; j< width; j++) {
             let square = document.createElement('div');
             square.classList.add('square');
-            square.style = "padding: 12px; background-color: white; border: 0; margin: 0;";
+            square.style = `width: ${480/width}px; height: ${480/height}px; background-color: white; border: 0; margin: 0;`;
             addBorder(square, i, j, width, height, 2);
 
             addHoverEffect(square);
@@ -74,8 +74,8 @@ function checkValidSize(n, type) {
     while ( (n !== null) &&  (typeof Number(n) != 'number' || n <= 0)) {
         n = prompt(`Enter a valid ${type}!`)
     }
-    while (n !== null && n > 20) {
-        n = prompt(`${type} must be less than 20!`);
+    while (n !== null && n > 100) {
+        n = prompt(`${type} must be less than 100!`);
     }
 
     return n;
@@ -94,5 +94,13 @@ changeSizeButton.addEventListener('click', function(e) {
     rows.forEach(row => {row.remove()});
 
     createDivGrid(+w, +h);
+})
+
+let resetButton = document.querySelector(".container .reset");
+resetButton.addEventListener('click',function(e) {
+    let squares = document.querySelectorAll('.square');
+    squares.forEach(square => {
+        square.style.backgroundColor = 'white';
+    });
 })
 
